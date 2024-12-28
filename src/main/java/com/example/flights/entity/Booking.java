@@ -2,6 +2,8 @@ package com.example.flights.entity;
 
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -23,6 +25,7 @@ public class Booking {
     @Id
     String bookingId;
 
+   // @Column(insertable = false, updatable = false)
     private String userId;
     private String userName;
     private String userEmail;
@@ -36,7 +39,7 @@ public class Booking {
     private String message;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId",insertable = false, updatable = false)
     @JsonIgnore
     User user;
 

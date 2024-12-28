@@ -30,6 +30,8 @@ public class Flight {
     @NotEmpty(message = "Flight ID cannot be empty")
     private String flightId;
 
+    String flightNo;
+
    // @NotNull(message = "Flight name cannot be null")
     @NotEmpty(message = "Flight name cannot be empty")
     private String flightName;
@@ -96,6 +98,6 @@ public class Flight {
 
     private String flightClass;
 
-    @OneToMany(mappedBy = "flightid", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Layovers> layovers;
 }

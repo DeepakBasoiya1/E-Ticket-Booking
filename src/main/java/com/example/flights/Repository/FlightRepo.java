@@ -26,16 +26,16 @@ public interface FlightRepo extends JpaRepository<Flight, String> {
        "LOWER(f.source) = LOWER(:source) AND " +
        "LOWER(f.destination) = LOWER(:destination) AND " +
        "f.dateTime BETWEEN :startDate AND :endDate AND " +
-       "LOWER(f.flightclass) = LOWER(:flightclass)")
+       "LOWER(f.flightClass) = LOWER(:flightClass)")
     public List<Flight> findFlightsByFilter(
         @Param("source") String source,
         @Param("destination") String destination,
         @Param("startDate") LocalDateTime startDate,
         @Param("endDate") LocalDateTime endDate,
-        @Param("flightclass") String flightclass
+        @Param("flightClass") String flightclass
     );
 
-    @Query("SELECT f FROM Flight f JOIN FETCH f.layovers WHERE f.flightid = :flightId")
+    @Query("SELECT f FROM Flight f JOIN FETCH f.layovers WHERE f.flightId = :flightId")
 Optional<Flight> findFlightWithLayovers(@Param("flightId") String flightId);
 
 }
