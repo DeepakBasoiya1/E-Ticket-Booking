@@ -35,8 +35,6 @@ public interface FlightRepo extends JpaRepository<Flight, String> {
         @Param("flightclass") String flightclass
     );
 
-
-   
     @Query("SELECT f FROM Flight f JOIN FETCH f.layovers WHERE f.flightid = :flightId")
 Optional<Flight> findFlightWithLayovers(@Param("flightId") String flightId);
 
