@@ -52,7 +52,7 @@ public class TicketServiceImpl implements TicketService {
             document.add(new Paragraph("Date of Journey: " + booking.getDoj()));
             document.add(new Paragraph("Departure Time: " + "12:30"));
             document.add(new Paragraph("Arrival Time: " + "14:30"));
-            document.add(new Paragraph("User Name: " + booking.getUserName()));
+            document.add(new Paragraph("User Name: " + booking.getUser().getName()));
             document.add(new Paragraph("Price: $" + booking.getPrice()));
             document.add(new Paragraph("checkInBaggage: " + flight.getCheckInBag() + "kg"));
             document.add(new Paragraph("CarryOnBaggage: " + flight.getCabinBag() + "kg"));

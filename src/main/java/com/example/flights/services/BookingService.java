@@ -4,13 +4,15 @@ import java.util.List;
 
 import com.example.flights.dto.ApiRes;
 import com.example.flights.dto.BookingDto;
+import com.example.flights.dto.BookingReqDto;
 
 public interface BookingService {
 
-     ApiRes<BookingDto> bookFlight(String userId, String flightId, String passangerName, String passangerEmail);
+     ApiRes<BookingDto> bookFlight(BookingReqDto bookingReqDto);
 
      ApiRes<BookingDto> getBookingDetails(String bookingid);
-
+     
       ApiRes<List<BookingDto>> getUserBookings(String userId);
+
 
 }

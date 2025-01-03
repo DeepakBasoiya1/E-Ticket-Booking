@@ -15,8 +15,8 @@ public class BookingDto {
 
     private String message;
     private String bookingId;
-    private String username;
-    private String userEmail;
+    private String pasangerName;
+    private String pasangerEmail;
     private LocalDate bookingDate;
     private String price;
     private LocalDate doj;

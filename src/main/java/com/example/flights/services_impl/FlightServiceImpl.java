@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.flights.dto.ApiRes;
 import com.example.flights.dto.FlightDetailsDto;
 import com.example.flights.dto.FlightDto;
+import com.example.flights.dto.SearchDto;
 import com.example.flights.entity.Flight;
 import com.example.flights.entity.Layovers;
 import com.example.flights.repository.BookingRepo;
@@ -26,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@Transactional
+
 public class FlightServiceImpl implements FlightService {
 
     @Autowired
@@ -52,17 +53,26 @@ public class FlightServiceImpl implements FlightService {
     public List<Flight> getFilteredFlights(String source, String destination, LocalDate date, String flightClass) {
         LocalDateTime startDate = date.atTime(LocalTime.now()); // 2024-12-21T00:00
         LocalDateTime endDate = date.atTime(23, 59, 59); // 2024-12-21T23:59:59
+        log.info(startDate.toString());
+        log.info(endDate.toString());
 
         return flightRepo.findFlightsByFilter(source, destination, startDate, endDate, flightClass);
     }
 
 
-    public ApiRes<List<FlightDto>> getFlights(String source, String destination, LocalDateTime dateTime, String flightClass) {
+    public ApiRes<List<FlightDto>> getFlights(SearchDto searchDto) {
         try {
             // List<Flight> flights = flightRepo.findAll();
 
-            LocalDate date = dateTime.toLocalDate();
+
              List<FlightDto> flightDtoList = new ArrayList<>();
+             String source = searchDto.getSource();
+             String destination = searchDto.getDestination();
+             String flightClass = searchDto.getFlightClass();
+             LocalDateTime dateTime = searchDto.getDepartureDate();
+             LocalDate date = dateTime.toLocalDate();
+             log.info(dateTime.toString());
+             log.info(date.toString());
              List<Flight> flights = getFilteredFlights(source, destination, date,flightClass);
              if(flights.isEmpty()) {    
                return new ApiRes<>(200, true, "there is no flight available ", null);
@@ -89,6 +99,7 @@ public ApiRes<FlightDetailsDto> getFlightDetails(String flightId) {
         return new ApiRes<>(500, false, "An error occurred while fetching the flight: " + e.getMessage(), null);
     }
 }
+@Transactional
 public ApiRes<Flight> addFlight(Flight flight) {
     try {
         // Set the Flight entity in each Layovers entity
@@ -104,7 +115,4 @@ public ApiRes<Flight> addFlight(Flight flight) {
         return new ApiRes<>(500, false, "An error occurred while adding the flight: " + e.getMessage(), null);
     }
 }
-
-
-
 }

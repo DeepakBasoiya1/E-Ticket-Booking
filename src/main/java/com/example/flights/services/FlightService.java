@@ -7,13 +7,14 @@ import java.util.List;
 import com.example.flights.dto.ApiRes;
 import com.example.flights.dto.FlightDetailsDto;
 import com.example.flights.dto.FlightDto;
+import com.example.flights.dto.SearchDto;
 import com.example.flights.entity.Flight;
 
 public interface FlightService {
 
     public List<Flight> getFilteredFlights(String source, String destination, LocalDate date, String flightClass);
 
-    public ApiRes<List<FlightDto>> getFlights(String source, String destination, LocalDateTime dateTime, String flightClass);
+    public ApiRes<List<FlightDto>> getFlights(SearchDto searchDto);
 
     public ApiRes<FlightDetailsDto> getFlightDetails(String flightId);
 

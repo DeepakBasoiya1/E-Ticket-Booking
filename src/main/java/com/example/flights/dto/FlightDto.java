@@ -23,9 +23,7 @@ public class FlightDto {
       private LocalTime arrivalTime;
       private String stops;
       private String price;
-      private LocalTime duration;
-      
-      
-      
+      private LocalTime duration;      
+            
 
 }

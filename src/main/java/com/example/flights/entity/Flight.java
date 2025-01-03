@@ -30,8 +30,6 @@ public class Flight {
     @NotEmpty(message = "Flight ID cannot be empty")
     private String flightId;
 
-    String flightNo;
-
    // @NotNull(message = "Flight name cannot be null")
     @NotEmpty(message = "Flight name cannot be empty")
     private String flightName;

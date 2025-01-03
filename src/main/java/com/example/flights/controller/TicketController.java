@@ -21,27 +21,26 @@ public class TicketController {
     public TicketController(TicketServiceImpl ticketService) {
         this.ticketService = ticketService;
     }
+
     @GetMapping("/download")
     public ResponseEntity<byte[]> downloadTicket(
             @RequestParam("bookingid") String bookingid
-            ) {
-    
+    ) {
+
         // Generate the PDF bytes
-        ApiRes<byte []> apiResponse = ticketService.generateTicket(bookingid);
+        ApiRes<byte[]> apiResponse = ticketService.generateTicket(bookingid);
         HttpStatus status = HttpStatus.resolve(apiResponse.getStatusCode());
-         if(status==null) {
-             status = HttpStatus.INTERNAL_SERVER_ERROR;
-         }
-        if(!apiResponse.isStatus()) {
+        if (status == null) {
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        if (!apiResponse.isStatus()) {
             return ResponseEntity.status(status).body(apiResponse.getData());
         }
-        
+
         // Set headers to indicate a downloadable PDF file
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=ticket.pdf");
         headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
-         return ResponseEntity.status(status).headers(headers).body(apiResponse.getData());
+        return ResponseEntity.status(status).headers(headers).body(apiResponse.getData());
     }
-    
 }
-

@@ -18,7 +18,7 @@ import jakarta.persistence.LockModeType;
 public interface FlightRepo extends JpaRepository<Flight, String> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT f FROM Flight f WHERE f.id = :flightId")
+    @Query("SELECT f FROM Flight f WHERE f.flightId = :flightId")
     public Flight findByIdWithLock(@Param("flightId") String flightId);
 
 
@@ -37,6 +37,7 @@ public interface FlightRepo extends JpaRepository<Flight, String> {
 
     @Query("SELECT f FROM Flight f JOIN FETCH f.layovers WHERE f.flightId = :flightId")
 Optional<Flight> findFlightWithLayovers(@Param("flightId") String flightId);
+
 
 }
 

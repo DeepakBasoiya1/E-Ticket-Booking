@@ -26,4 +26,10 @@ public class UserServiceImpl implements UserService {
             return new ApiRes<>(500, false, "An error occurred while registering the user: " + e.getMessage(), null);
         }
     }
+
+
+
+
+
+    
 }

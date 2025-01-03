@@ -25,10 +25,11 @@ public class Booking {
     @Id
     String bookingId;
 
-   // @Column(insertable = false, updatable = false)
     private String userId;
-    private String userName;
-    private String userEmail;
+    @Column(name = "pasangerName")
+    private String pasangerName;
+    @Column(name = "pasangerEmail")
+    private String pasangerEmail;
     private String price;
     private LocalDate bookingDate;
     private LocalDate doj;
@@ -37,6 +38,8 @@ public class Booking {
     private String destinationCity;
     private String flightId;
     private String message;
+
+    
 
     @ManyToOne
     @JoinColumn(name = "userId",insertable = false, updatable = false)

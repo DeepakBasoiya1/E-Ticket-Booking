@@ -9,9 +9,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.flights.dto.ApiRes;
 import com.example.flights.dto.BookingDto;
+import com.example.flights.dto.BookingReqDto;
 import com.example.flights.entity.Booking;
 import com.example.flights.entity.Flight;
 import com.example.flights.entity.User;
@@ -38,11 +40,8 @@ public class BookingServiceImpl implements BookingService  {
     @Autowired
     ModelMapper modelMapper = new ModelMapper();
 
-
     @Autowired
     EmailService emailService;
-
-
 
     @Autowired
     FlightRepo flightRepo;
@@ -50,9 +49,12 @@ public class BookingServiceImpl implements BookingService  {
 
 
 
-    public ApiRes<BookingDto> bookFlight(String userId, String flightId, String passangerName, String passangerEmail) {
+    public ApiRes<BookingDto> bookFlight(@RequestBody BookingReqDto bookingReqDto) {
+        String userId = bookingReqDto.getUserId();
+        String flightId = bookingReqDto.getFlightId();
+        String passangerName = bookingReqDto.getPassangerName();
+        String passangerEmail = bookingReqDto.getPassangerEmail();
         try { 
-
             User user = userRepo.findById(userId).orElse(null);
             if (user == null) {
                 return new ApiRes<>(404,false,"User not found",null);
@@ -71,8 +73,8 @@ public class BookingServiceImpl implements BookingService  {
             flightRepo.save(flight);
 
             Booking booking = new Booking();
-            booking.setUserName(passangerName);
-            booking.setUserEmail(passangerEmail);
+            booking.setPasangerName(passangerName);
+            booking.setPasangerEmail(passangerEmail);
             booking.setBookingDate(LocalDate.now());
             booking.setFlightId(flightId);
             booking.setPrice(flight.getPrice());
@@ -80,7 +82,7 @@ public class BookingServiceImpl implements BookingService  {
             booking.setSource(flight.getSource());
             booking.setDestinationCity(flight.getDestination());
             booking.setDoj(flight.getDepartureDate());
-            booking.setUserId(userId);
+            booking.setUserId(user.getUserId());
             booking.setUser(user);
             booking.setBookingId(UUID.randomUUID().toString());
             booking.setMessage("Your booking is confirmed for flightRepo "+flight.getFlightName()+" from "+flight.getSource()+" to "+flight.getDestination()+" on "+booking.getBookingDate()+" with booking id "+booking.getBookingId());
@@ -112,6 +114,14 @@ public class BookingServiceImpl implements BookingService  {
     }
 
     public ApiRes<BookingDto> getBookingDetails(String bookingid) {
+
+        if(bookingid==null){
+            return new ApiRes<>(400,false,"Booking ID cannot be null",null);
+        }
+        if(bookingid.isEmpty()){
+            return new ApiRes<>(400,false,"Booking ID cannot be empty",null);
+        }
+
         try {
             Booking booking = bookingRepo.findById(bookingid).orElse(null);
             if (booking == null) {
@@ -124,7 +134,14 @@ public class BookingServiceImpl implements BookingService  {
         }
     }
     
+    @Override
     public ApiRes<List<BookingDto>> getUserBookings(String userId) {
+        if(userId==null){
+            return new ApiRes<>(400,false,"User ID cannot be null",null);
+        }
+        if(userId.isEmpty()){
+            return new ApiRes<>(400,false,"User ID cannot be empty",null);
+        }
         try {
             List<BookingDto> bookingDtos = new ArrayList<BookingDto>();
             User user = userRepo.findById(userId).orElse(null);
